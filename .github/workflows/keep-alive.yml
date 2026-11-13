@@ -1,6 +1,6 @@
 # Keep-alive pinger for Shlok's free-tier hosted projects.
 # Render free web services spin down after 15 minutes of no traffic;
-# this pings the flagship app every 10 minutes so it stays warm.
+# this pings both every 10 minutes (under the 15-min spin-down window) so they stay warm.
 # NOTE: Render's free plan allows ~750 instance-hours per workspace per
 # month, which keeps ONE service awake around the clock. Other services
 # are intentionally left to sleep (they wake on the next request) until
@@ -22,4 +22,9 @@ jobs:
         run: |
           code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 120 https://samajh-dl23.onrender.com/api/health || echo 000)
           echo "samajh-dl23.onrender.com/api/health -> $code"
+          test "$code" = "200"
+      - name: Ping OMR Checker (Render free)
+        run: |
+          code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 120 https://omrchecker-wqv7.onrender.com/api/health || echo 000)
+          echo "omrchecker-wqv7.onrender.com/api/health -> $code"
           test "$code" = "200"
