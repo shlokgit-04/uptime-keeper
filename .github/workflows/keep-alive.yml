@@ -28,3 +28,8 @@ jobs:
           code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 120 https://omrchecker-wqv7.onrender.com/api/health || echo 000)
           echo "omrchecker-wqv7.onrender.com/api/health -> $code"
           test "$code" = "200"
+      - name: Ping JASS AI (Render free)
+        run: |
+          code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 120 https://jass-ai.onrender.com/api/health || echo 000)
+          echo "jass-ai.onrender.com/api/health -> $code"
+          test "$code" = "200"
